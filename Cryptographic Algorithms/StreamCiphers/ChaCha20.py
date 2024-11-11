@@ -4,7 +4,7 @@ Created by Nikhat Singla on 10 Nov 2024
 
 def encrypt_ChaCha20 (plaintext: bytes):
     '''
-    Parameter "plaintext" is of type bytes. 8 bytes nonce is used (default).
+    Parameter "plaintext" is of type bytes. 32 byte key and 8 bytes nonce is used (default value).
     '''
     from Crypto.Cipher import ChaCha20
     from Crypto.Random import get_random_bytes
