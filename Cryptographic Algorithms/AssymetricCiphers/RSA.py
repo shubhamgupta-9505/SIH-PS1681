@@ -16,15 +16,15 @@ q=random.getrandbits(16)
 'Generate new RSA keys'
 def generate_keypair(p, q):
     
-    if p == q:
-        raise ValueError("p and q cannot be the same.")
+   while p==q :
+       q=random.getrandbits(16)
     
     n = p * q
     f = (p - 1) * (q - 1)
     
     e = 65537  # Fixed common public exponent
-    if gcd(e, f) != 1:
-        raise ValueError("Chosen e is not coprime with φ(n). Choose different primes p and q.")
+   while(gcd(e,f)!=1):
+       e=random.getrandbits(32)
         
     #Generating private key
     d = mod_inverse(e, f)
@@ -84,14 +84,14 @@ def encrypt_message(public_key, message):
     hash_size_in_bytes = SHA256.digest_size  # SHA-256 hash output size in bytes
     max_message_length = key_size_in_bytes - 2 - 2 * hash_size_in_bytes
 
-    if len(message) > max_message_length:
-        raise ValueError(
-            f"Message is too long. Maximum length for this key and hash algorithm is {max_message_length} bytes."
-        )
+    # Encrypt the message in chunks
+    chunks = [
+        cipher.encrypt(message[i:i + max_message_length])
+        for i in range(0, len(message), max_message_length)
+    ]
 
-    # Encrypt the message
-    ciphertext = cipher.encrypt(message)
-    return ciphertext
+    # Concatenate all encrypted chunks
+    return b"".join(chunks)
 
 'Decrypt the key'
 from Crypto.Cipher import PKCS1_v1_5
