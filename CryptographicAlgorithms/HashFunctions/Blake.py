@@ -6,7 +6,7 @@ This module implements the Blake hash function.
 
 from Crypto.Hash import BLAKE2b
 
-def blake2b_hash(data: str, digest_bits: int = 512) -> str:
+def encrypt_BLAKE(data: str, digest_bits: int = 512) -> str:
     """
     Computes the BLAKE2b hash of the input data.
 
@@ -32,6 +32,6 @@ def blake2b_hash(data: str, digest_bits: int = 512) -> str:
 # Example usage
 if __name__ == "__main__":
     message = "Hello, world!"
-    digest = blake2b_hash(message)
+    digest = encrypt_BLAKE(message)
     print(f"Message: {message}")
     print(f"BLAKE2b Hash (Hex Digest): {digest}")
