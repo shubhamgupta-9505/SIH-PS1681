@@ -1,11 +1,12 @@
 ''' 
-Created on 15th November by Japnoor Kaur
+Created on 15 November 2024 by Japnoor Kaur
 
-RSA used fro both confidentiality(encryption) and authentication(digitalsignature)
+RSA is used for both confidentiality (encryption) and authentication (digitalsignature).
 Signing and decryption are significantly slower than verification and encryption.
 
-sufficient length of the RSA modulus is 3072 bits
-''' 
+Sufficient length of the RSA modulus is 3072 bits
+'''
+
 import random
 from math import gcd
 from sympy import mod_inverse  # Ensure you have sympy installed: pip install sympy
