@@ -56,9 +56,7 @@ def export_key(format='PEM', passphrase=None, pkcs=1, protection=None, prot_para
     
 'Encrypt the key'
 from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
-from Crypto.Random import get_random_bytes
 
 def encrypt_message(public_key, message):
     """
