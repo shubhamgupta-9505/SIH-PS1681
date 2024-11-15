@@ -16,14 +16,14 @@ q=random.getrandbits(16)
 'Generate new RSA keys'
 def generate_keypair(p, q):
     
-   while p==q :
+    while p==q :
        q=random.getrandbits(16)
     
     n = p * q
     f = (p - 1) * (q - 1)
     
     e = 65537  # Fixed common public exponent
-   while(gcd(e,f)!=1):
+    while(gcd(e,f)!=1):
        e=random.getrandbits(32)
         
     #Generating private key
