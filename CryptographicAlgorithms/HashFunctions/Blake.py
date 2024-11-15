@@ -1,3 +1,9 @@
+''' 
+Created on 15th November by Mahee Agarwal.
+
+This module implements the Blake hash function.
+''' 
+
 from Crypto.Hash import BLAKE2b
 
 def blake2b_hash(data: str, digest_bits: int = 512) -> str:
