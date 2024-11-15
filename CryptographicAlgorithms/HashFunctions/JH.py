@@ -42,9 +42,3 @@ def JH_hash(message, hash_size=512):
         output_hash += h[i % 8].to_bytes(8, 'big')
     return output_hash[:hash_size // 8]  # Trim to desired hash size
 
-# Example Usage
-if __name__ == "__main__":
-    message = b"Hello, World!"
-    hash_output = JH_hash(message)
-    print(f"JH Hash ({len(hash_output)*8} bits) of '{message.decode()}'")
-    print(hash_output.hex())
