@@ -24,7 +24,12 @@ def generate_keypair(p, q):
     
     e = 65537  # Fixed common public exponent
     while(gcd(e,f)!=1):
-       e=random.getrandbits(32)
+        p=random.getrandbits(16)
+        q=random.getrandbits(16)
+        while p==q :
+            q.getrandbits(16)
+        n=p*q
+        f=(p-1)*(q-1)
         
     #Generating private key
     d = mod_inverse(e, f)
