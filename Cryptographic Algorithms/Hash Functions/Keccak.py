@@ -1,4 +1,6 @@
-''' Created on 15th November by Japnoor Kaur and Mahee Agarwal
+''' 
+Created on 15th November by Japnoor Kaur and Mahee Agarwal
+
 This module implements the Keccak hash functions for the 64 bit word length (b=1600) and the fixed digest sizes of 224, 256, 384 and 512 bits.
 ''' 
 
@@ -32,21 +34,21 @@ def create_keccak_object(data=b"", digest_bits=256, update_after_digest=False):
     return keccak_obj
 
 # Update keccak 
- keccak_hash = create_keccak_object(data=initial_data, digest_bits=digest_bits, update_after_digest=True)
+keccak_hash = create_keccak_object(data=initial_data, digest_bits=digest_bits, update_after_digest=True)
 
- while True:
-        # Accept input from the user
-        data = input(">> ")
+while True:
+    # Accept input from the user
+    data = input(">> ")
 
-        # Exit the loop if the input is blank
-        if not data:
-            break
+    # Exit the loop if the input is blank
+    if not data:
+        break
 
-        # Update the hash object with the input
-        keccak_obj.update(data.encode())  # Encode the input to bytes
+    # Update the hash object with the input
+    keccak_obj.update(data.encode())  # Encode the input to bytes
 
-    # Get the final hash digest
-    final_digest = keccak_obj.hexdigest()
-    print("\nFinal Hash (hex):", final_digest)
+# Get the final hash digest
+final_digest = keccak_obj.hexdigest()
+print("\nFinal Hash (hex):", final_digest)
 
 
