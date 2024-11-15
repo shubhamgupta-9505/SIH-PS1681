@@ -1,3 +1,9 @@
+''' 
+Created on 15th November by Japnoor Kaur and Mahee Agarwal.
+
+This module implements the Keccak hash function.
+''' 
+
 from Crypto.Hash import SHA3_256
 
 def keccak_hash_from_inputs(digest_bits=256, update_after_digest=False):
