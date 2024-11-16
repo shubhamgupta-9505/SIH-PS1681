@@ -38,9 +38,9 @@ def jh_hash_to_json_file(message, digest_bits=256, output_filename="hash_output.
     }
 
     # Write the dictionary to a JSON file
-    with open(output_filename, "w") as json_file:
+    with open(output_filenamejh, "w") as json_file:
         json.dump(hash_data, json_file, indent=4)
 
     # Return the file path
-    return output_filename
+    return output_filenamejh
 
