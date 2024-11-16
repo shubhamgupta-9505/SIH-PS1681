@@ -26,7 +26,18 @@ def jh_hash(message, digest_bits=256):
     # Update the hasher with the message
     jh_hasher.update(message.encode('utf-8'))
 
-    # Return the hexadecimal digest
-    return jh_hasher.hexdigest()
+    jh_digest= jh_hasher.hexdigest()
+
+    import json
+    # Convert to key-value pairs (2 characters per value)
+    key_value_pairs = {f"key{i}": jh_digest[i:i+2] for i in range(0, len(hexdigest), 2)}
+
+    # Save to JSON file
+    json_filename = "digest_key_value.json"
+    with open(json_filename, "w") as json_file:
+        json.dump(key_value_pairs, json_file, indent=4)  # Indent for readability
+
+    # Return the json file 
+    return json_filename 
 
 
