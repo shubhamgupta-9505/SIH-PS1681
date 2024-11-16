@@ -42,3 +42,5 @@ def JH_hash(message, hash_size=512):
         output_hash += h[i % 8].to_bytes(8, 'big')
     return output_hash[:hash_size // 8]  # Trim to desired hash size
 
+
+
