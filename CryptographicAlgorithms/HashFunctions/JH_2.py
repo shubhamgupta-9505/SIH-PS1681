@@ -37,7 +37,7 @@ def jh_hash(message, digest_bits=256):
     with open(json_filename, "w") as json_file:
         json.dump(key_value_pairs, json_file, indent=4)  # Indent for readability
 
-    # Return the json file 
-    return json_filename 
+    # Return the key-value pairs
+    return key_value_pairs
 
 
