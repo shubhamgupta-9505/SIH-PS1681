@@ -1,15 +1,17 @@
+import json
 from hashlib import new
 
-def jh_hash(message, digest_bits=256):
+def jh_hash_to_json_file(message, digest_bits=256, output_filename="hash_output.json"):
     """
-    Compute the JH hash of a given message.
+    Compute the JH hash of a given message and save it as a JSON file.
 
     Parameters:
         message (str): The input message to hash.
         digest_bits (int): The size of the digest in bits. Common values: 224, 256, 384, 512.
+        output_filename (str): The name of the output JSON file.
 
     Returns:
-        str: Hexadecimal hash of the input message.
+        str: The path to the JSON file.
     """
     # Supported digest sizes for JH
     supported_bits = [224, 256, 384, 512]
@@ -26,18 +28,19 @@ def jh_hash(message, digest_bits=256):
     # Update the hasher with the message
     jh_hasher.update(message.encode('utf-8'))
 
-    jh_digest= jh_hasher.hexdigest()
+    # Compute the hex digest
+    jh_digest = jh_hasher.hexdigest()
 
-    import json
-    # Convert to key-value pairs (2 characters per value)
-    key_value_pairs = {f"key{i}": jh_digest[i:i+2] for i in range(0, len(hexdigest), 2)}
+    # Create the dictionary for the JSON output
+    hash_data = {
+        "algorithm": hash_name,
+        "hexdigest": jh_digest
+    }
 
-    # Save to JSON file
-    json_filename = "digest_key_value.json"
-    with open(json_filename, "w") as json_file:
-        json.dump(key_value_pairs, json_file, indent=4)  # Indent for readability
+    # Write the dictionary to a JSON file
+    with open(output_filename, "w") as json_file:
+        json.dump(hash_data, json_file, indent=4)
 
-    # Return the key-value pairs
-    return key_value_pairs
-
+    # Return the file path
+    return output_filename
 
