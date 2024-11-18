@@ -9,73 +9,89 @@ Mode 4: OFB (doesn't need padded plaintext)
 Mode 5: CTR (doesn't need padded plaintext)
 '''
 
-def encrypt_CAST (plaintext: bytes, mode: int):
+from Crypto.Cipher import CAST
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+def encrypt_CAST (plaintext: bytes, mode: int) -> dict:
     '''
-    Input parameter "plaintext" must be in Bytes format, with bytes divisible by CAST block size for MODE 1 and 2 (8 bytes). Key length used is 16 bytes (recommended).
+    Description:
+    This CAST implementation has 64 bit block size and uses 16 byte (recommended) key.
+
+    Parameters:
+
+    plaintext: a bytes representation of string (padded automatically)
+    mode: an integer ranging from 1 to 5
+
+    Returns:
+    dictionary: contains key-value pairs for all necessities
     '''
 
     key_size = 16
-    block_size = 8
+    block_size = CAST.block_size
 
-    # for CFB
-    segment_size = 8 # specifies segment size (in multiples of 8 bits)
+    ret_dict = {}
 
-    # for CTR
-    nonce = None # specifies nonce (set to None due to other modes of operations)
-    nonce_size = int(block_size / 2) # specifies size of nonce (in bytes)
-    counter_initial_value = 0 # specifies initial value of counter
-
-    from Crypto.Cipher import CAST
-    from Crypto.Random import get_random_bytes
-    from base64 import b64encode, b64decode
+    plaintext = pad(plaintext, block_size)
 
     key = get_random_bytes(key_size)
-    iv = get_random_bytes(block_size)
+    ret_dict["key"] = key
 
     if (mode == 1):
-        iv = None
         cipher_encrypt = CAST.new(key, CAST.MODE_ECB)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = CAST.new(key, CAST.MODE_ECB)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 2):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
         cipher_encrypt = CAST.new(key, CAST.MODE_CBC, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = CAST.new(key, CAST.MODE_CBC, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 3):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
+        segment_size = 8 # specifies segment size (in multiples of 8 bits)
+        ret_dict["segment_size"] = segment_size
+
         cipher_encrypt = CAST.new(key, CAST.MODE_CFB, iv, segment_size=segment_size)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = CAST.new(key, CAST.MODE_CFB, iv, segment_size=segment_size)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 4):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
         cipher_encrypt = CAST.new(key, CAST.MODE_OFB, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = CAST.new(key, CAST.MODE_OFB, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 5):
-        from Crypto.Util import Counter
+        nonce = get_random_bytes(int(block_size / 2))
+        ret_dict["nonce"] = nonce
 
-        iv = None
-        nonce = get_random_bytes(nonce_size)
-        counter_1 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_encrypt = CAST.new(key, CAST.MODE_CTR, counter=counter_1)
+        cipher_encrypt = CAST.new(key, CAST.MODE_CTR, nonce=nonce)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
-        counter_2 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_decrypt = CAST.new(key, CAST.MODE_CTR, counter=counter_2)
+        cipher_decrypt = CAST.new(key, CAST.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    
+    decrypted_text = unpad(decrypted_text, block_size)
+    ret_dict["decrypted_text"] = decrypted_text
         
-    return b64encode(key), iv if (iv == None) else b64encode(iv), nonce if (nonce == None) else b64encode(nonce), b64encode(ciphertext), decrypted_text
+    return ret_dict
 
 if __name__ == "__main__":
-    print(encrypt_CAST(b"This is Sixteen.", 1))
-    print(encrypt_CAST(b"This is Sixteen.", 2))
-    print(encrypt_CAST(b"This is Sixteen.", 3))
-    print(encrypt_CAST(b"This is Sixteen.", 4))
-    print(encrypt_CAST(b"This is Sixteen.", 5))
+    print(encrypt_CAST(b"This is Sixteen. Not Sixteen.", 1))
+    print(encrypt_CAST(b"This is Sixteen. Not Sixteen.", 2))
+    print(encrypt_CAST(b"This is Sixteen. Not Sixteen.", 3))
+    print(encrypt_CAST(b"This is Sixteen. Not Sixteen.", 4))
+    print(encrypt_CAST(b"This is Sixteen. Not Sixteen.", 5))
 

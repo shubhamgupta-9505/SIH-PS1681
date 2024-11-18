@@ -9,75 +9,91 @@ Mode 4: OFB (doesn't need padded plaintext)
 Mode 5: CTR (doesn't need padded plaintext)
 '''
 
-def encrypt_Blowfish (plaintext: bytes, mode: int):
-    '''
-    Input parameter "plaintext" must be in Bytes format, with bytes divisible by Blowfish block size (64 bits). Key length used must be 4-56 bytes. Atleast 16 byte key must be used for security purposes. Hence, key of random size is generated.
-    '''
+from Crypto.Cipher import Blowfish
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
 
-    import random
+import random
+
+def encrypt_Blowfish (plaintext: bytes, mode: int) -> dict:
+    '''
+    Description:
+    This Blowfish implementation has 64 bit block size and uses a random 16-56 byte key.
+
+    Parameters:
+
+    plaintext: a bytes representation of string (padded automatically)
+    mode: an integer ranging from 1 to 5
+
+    Returns:
+    dictionary: contains key-value pairs for all necessities
+    '''
 
     key_size = random.randint(16, 56)
-    block_size = 8
+    block_size = Blowfish.block_size
 
-    # for CFB
-    segment_size = 8 # specifies segment size (in multiples of 8 bits)
+    ret_dict = {}
 
-    # for CTR
-    nonce = None # specifies nonce (set to None due to other modes of operations)
-    nonce_size = int(block_size / 2) # specifies size of nonce (in bytes)
-    counter_initial_value = 0 # specifies initial value of counter
-
-    from Crypto.Cipher import Blowfish
-    from Crypto.Random import get_random_bytes
-    from base64 import b64encode, b64decode
+    plaintext = pad(plaintext, block_size)
 
     key = get_random_bytes(key_size)
-    iv = get_random_bytes(block_size)
+    ret_dict["key"] = key
 
     if (mode == 1):
-        iv = None
         cipher_encrypt = Blowfish.new(key, Blowfish.MODE_ECB)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = Blowfish.new(key, Blowfish.MODE_ECB)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 2):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
         cipher_encrypt = Blowfish.new(key, Blowfish.MODE_CBC, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = Blowfish.new(key, Blowfish.MODE_CBC, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 3):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
+        segment_size = 8 # specifies segment size (in multiples of 8 bits)
+        ret_dict["segment_size"] = segment_size
+
         cipher_encrypt = Blowfish.new(key, Blowfish.MODE_CFB, iv, segment_size=segment_size)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = Blowfish.new(key, Blowfish.MODE_CFB, iv, segment_size=segment_size)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 4):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv
+
         cipher_encrypt = Blowfish.new(key, Blowfish.MODE_OFB, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
         cipher_decrypt = Blowfish.new(key, Blowfish.MODE_OFB, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 5):
-        from Crypto.Util import Counter
+        nonce = get_random_bytes(int(block_size / 2))
+        ret_dict["nonce"] = nonce
 
-        iv = None
-        nonce = get_random_bytes(nonce_size)
-        counter_1 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_encrypt = Blowfish.new(key, Blowfish.MODE_CTR, counter=counter_1)
+        cipher_encrypt = Blowfish.new(key, Blowfish.MODE_CTR, nonce=nonce)
         ciphertext = cipher_encrypt.encrypt(plaintext)
 
-        counter_2 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_decrypt = Blowfish.new(key, Blowfish.MODE_CTR, counter=counter_2)
+        cipher_decrypt = Blowfish.new(key, Blowfish.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    
+    decrypted_text = unpad(decrypted_text, block_size)
+    ret_dict["decrypted_text"] = decrypted_text
         
-    return b64encode(key), iv if (iv == None) else b64encode(iv), nonce if (nonce == None) else b64encode(nonce), b64encode(ciphertext), decrypted_text
+    return ret_dict
 
 if __name__ == "__main__":
-    print(encrypt_Blowfish(b"This is Sixteen.", 1))
-    print(encrypt_Blowfish(b"This is Sixteen.", 2))
-    print(encrypt_Blowfish(b"This is Sixteen.", 3))
-    print(encrypt_Blowfish(b"This is Sixteen.", 4))
-    print(encrypt_Blowfish(b"This is Sixteen.", 5))
+    print(encrypt_Blowfish(b"This is Sixteen. Not Sixteen.", 1))
+    print(encrypt_Blowfish(b"This is Sixteen. Not Sixteen.", 2))
+    print(encrypt_Blowfish(b"This is Sixteen. Not Sixteen.", 3))
+    print(encrypt_Blowfish(b"This is Sixteen. Not Sixteen.", 4))
+    print(encrypt_Blowfish(b"This is Sixteen. Not Sixteen.", 5))
 
