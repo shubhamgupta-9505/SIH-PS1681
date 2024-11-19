@@ -38,7 +38,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
     plaintext = pad(plaintext, block_size)
 
     key = get_random_bytes(key_size)
-    ret_dict["key"] = key
+    ret_dict["key"] = key.hex()
 
     if (mode == 1):
         cipher_encrypt = AES.new(key, AES.MODE_ECB)
@@ -48,7 +48,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 2):
         iv = get_random_bytes(block_size)
-        ret_dict["iv"] = iv
+        ret_dict["iv"] = iv.hex()
 
         cipher_encrypt = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
@@ -57,7 +57,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 3):
         iv = get_random_bytes(block_size)
-        ret_dict["iv"] = iv
+        ret_dict["iv"] = iv.hex()
 
         segment_size = 8 # specifies segment size (in multiples of 8 bits)
         ret_dict["segment_size"] = segment_size
@@ -69,7 +69,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 4):
         iv = get_random_bytes(block_size)
-        ret_dict["iv"] = iv
+        ret_dict["iv"] = iv.hex()
 
         cipher_encrypt = AES.new(key, AES.MODE_OFB, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
@@ -78,7 +78,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     elif (mode == 5):
         nonce = get_random_bytes(int(block_size / 2))
-        ret_dict["nonce"] = nonce
+        ret_dict["nonce"] = nonce.hex()
 
         cipher_encrypt = AES.new(key, AES.MODE_CTR, nonce=nonce)
         ciphertext = cipher_encrypt.encrypt(plaintext)
@@ -86,7 +86,7 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         cipher_decrypt = AES.new(key, AES.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     
-    ret_dict["ciphertext"] = ciphertext
+    ret_dict["ciphertext"] = ciphertext.hex()
 
     decrypted_text = unpad(decrypted_text, block_size)
     ret_dict["decrypted_text"] = decrypted_text

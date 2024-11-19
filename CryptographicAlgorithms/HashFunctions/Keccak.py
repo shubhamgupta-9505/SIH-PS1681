@@ -30,7 +30,7 @@ def hash_KECCAK(message: bytes, digest_bits=256) -> dict:
     keccak_obj.update(message)
 
     # Return the digest of the accumulated input
-    return {"algo": "Keccak", "algo_type": "HashFun", "digest": keccak_obj.digest()}
+    return {"algo": "Keccak", "algo_type": "HashFun", "digest": keccak_obj.digest().hex()}
 
 # Example usage
 if __name__ == "__main__":

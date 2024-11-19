@@ -57,6 +57,3 @@ for part, index in enumerate(parts):
     # Append to dataset
     encrypted_parts[index].extend(all_enc)
 
-# Store the encrypted parts in one file
-with open('dataset.bin', 'wb') as file:
-    pickle.dump(encrypted_parts, file)

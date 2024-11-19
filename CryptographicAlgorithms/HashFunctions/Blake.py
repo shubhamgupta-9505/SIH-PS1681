@@ -25,7 +25,7 @@ def hash_BLAKE(data: bytes, digest_bits: int = 512) -> dict:
     h_obj.update(data)
     
     # Retrieve the hexadecimal digest
-    return {"algo": "Blake", "algo_type": "HashFun", "digest": h_obj.digest()}
+    return {"algo": "Blake", "algo_type": "HashFun", "digest": h_obj.digest().hex()}
 
 # Example usage
 if __name__ == "__main__":
