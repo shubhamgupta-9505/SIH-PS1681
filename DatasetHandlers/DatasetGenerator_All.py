@@ -1,5 +1,5 @@
 '''
-Created by Nikhat Singla on 15 November 2024
+Created by Nikhat Singla on 19 November 2024
 '''
 
 import pickle
@@ -29,10 +29,9 @@ part_size = len(data) // 25000
 parts = [data[i:i+part_size] for i in range(0, len(data), part_size)]
 
 # Encrypt each part with all cryptographic algorithms
-with open('/home/nikhatsingla/Documents/SIH-PS1681/sampleoutput.txt', 'rb') as file:
-    encrypted_parts = pickle.load(file)
+encrypted_parts = []
 
-for part, index in enumerate(parts):
+for part in parts:
     all_enc = []
 
     # Encrypt using Block Cipers (5 modes)
@@ -55,5 +54,5 @@ for part, index in enumerate(parts):
 
 
     # Append to dataset
-    encrypted_parts[index].extend(all_enc)
+    encrypted_parts.append(all_enc)
 
