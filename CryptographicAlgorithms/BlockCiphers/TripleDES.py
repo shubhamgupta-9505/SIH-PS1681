@@ -31,9 +31,9 @@ def encrypt_DES3 (plaintext: bytes, mode: int) -> dict:
     block_size = DES3.block_size
 
     ret_dict = {}
-    ret_dict["algo": "Triple-DES"]
-    ret_dict["algo_type": "BlockCipher"]
-    ret_dict["mode": mode]
+    ret_dict["algo"] = "Triple-DES"
+    ret_dict["algo_type"] = "BlockCipher"
+    ret_dict["mode"] = mode
 
     plaintext = pad(plaintext, block_size)
 

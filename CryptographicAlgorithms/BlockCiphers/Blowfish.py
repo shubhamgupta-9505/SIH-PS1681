@@ -33,9 +33,9 @@ def encrypt_Blowfish (plaintext: bytes, mode: int) -> dict:
     block_size = Blowfish.block_size
 
     ret_dict = {}
-    ret_dict["algo": "Blowfish"]
-    ret_dict["algo_type": "BlockCipher"]
-    ret_dict["mode": mode]
+    ret_dict["algo"] = "Blowfish"
+    ret_dict["algo_type"] = "BlockCipher"
+    ret_dict["mode"] = mode
 
     plaintext = pad(plaintext, block_size)
 
