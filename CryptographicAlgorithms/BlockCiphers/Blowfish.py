@@ -91,7 +91,7 @@ def encrypt_Blowfish (plaintext: bytes, mode: int) -> dict:
     ret_dict["ciphertext"] = ciphertext.hex()
     
     decrypted_text = unpad(decrypted_text, block_size)
-    ret_dict["decrypted_text"] = decrypted_text
+    ret_dict["decrypted_text"] = decrypted_text.decode()
         
     return ret_dict
 
