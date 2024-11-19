@@ -29,7 +29,7 @@ def encrypt_ChaCha20 (plaintext: bytes) -> dict:
     cipher_decrypt = ChaCha20.new(key=key, nonce=nonce)
     decrypted_text = cipher_decrypt.decrypt(ciphertext)
 
-    return {"algo": "ChaCha20", "algo_type": "StreamCipher", "key": key.hex(), "nonce": nonce.hex(), "decrypted_text": decrypted_text.decode(), "ciphertext": ciphertext.hex()}
+    return {"algo": "ChaCha20", "algo_type": "StreamCipher", "key": key.hex(), "nonce": nonce.hex(), "decrypted_text": decrypted_text.hex(), "ciphertext": ciphertext}
 
 # Example usage
 if __name__ == "__main__":

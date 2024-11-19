@@ -20,17 +20,14 @@ with open('Datasets/Original/1MiB.txt', 'r') as file:
     data = file.read()
 
 def extractFeatures(dictionary: dict) -> bytes:
-    return f"{dictionary["algo_type"]},{dictionary["algo"]},{dictionary.get("mode")},{len(dictionary.get("ciphertext", dictionary.get("digest")))},".encode() + dictionary.get("ciphertext", dictionary.get("digest")) + b'\n'
+    return f"{dictionary["algo_type"]},{dictionary["algo"]},{dictionary.get("mode")},{dictionary.get("ciphertext", dictionary.get("digest")).hex()}\n".encode()
 
-
-# Convert data into bytes format
-# data = data.encode()
 
 # Divide the data into 1000 parts
 part_size = len(data) // 1000
 parts = [data[i:i+part_size].encode() for i in range(0, len(data), part_size)]
 
-with open('Datasets/Encrypted/encrypted_nsv.nsv', 'wb') as file:
+with open('Datasets/Encrypted/encrypted_hex.nsv', 'wb') as file:
     for part in parts:
         # Encrypt using Block Cipers (5 modes)
         for i in range(1, 6):

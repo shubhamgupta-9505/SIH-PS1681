@@ -93,7 +93,7 @@ def encrypt_DES3 (plaintext: bytes, mode: int) -> dict:
         cipher_decrypt = DES3.new(key, DES3.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     
-    ret_dict["ciphertext"] = ciphertext.hex()
+    ret_dict["ciphertext"] = ciphertext
 
     decrypted_text = unpad(decrypted_text, block_size)
     ret_dict["decrypted_text"] = decrypted_text.decode()

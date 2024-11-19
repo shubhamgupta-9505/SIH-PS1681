@@ -29,7 +29,7 @@ def encrypt_ARC4 (plaintext: bytes) -> dict:
     cipher_decrypt = ARC4.new(key)
     decrypted_text = cipher_decrypt.decrypt(ciphertext)
 
-    return {"algo": "ARC4", "algo_type": "StreamCipher", "key": key.hex(), "decrypted_text": decrypted_text.decode(), "ciphertext": ciphertext.hex()}
+    return {"algo": "ARC4", "algo_type": "StreamCipher", "key": key.hex(), "decrypted_text": decrypted_text.hex(), "ciphertext": ciphertext}
 
 # Example usage
 if __name__ == "__main__":
