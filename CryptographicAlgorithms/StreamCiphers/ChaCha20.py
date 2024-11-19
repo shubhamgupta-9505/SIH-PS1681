@@ -1,14 +1,23 @@
 '''
 Created by Nikhat Singla on 10 Nov 2024
+
+This module implements ChaCha20 stream cipher
 '''
 
-def encrypt_ChaCha20 (plaintext: bytes):
+from Crypto.Cipher import ChaCha20
+from Crypto.Random import get_random_bytes
+
+def encrypt_ChaCha20 (plaintext: bytes) -> dict:
     '''
-    Parameter "plaintext" is of type bytes. 32 byte key and 8 bytes nonce is used (default value).
+    Description:
+        This implementation encrypts plaintext using a random 32-byte key and an 8-byte nonce, although it can also accommodate a 12-byte nonce.
+
+    Parameters:
+        plaintext: a bytes representation of string
+
+    Returns:
+        Dictionary containing key-value pairs for all necessities
     '''
-    from Crypto.Cipher import ChaCha20
-    from Crypto.Random import get_random_bytes
-    from base64 import b64encode
 
     key = get_random_bytes(32)
 
@@ -20,6 +29,8 @@ def encrypt_ChaCha20 (plaintext: bytes):
     cipher_decrypt = ChaCha20.new(key=key, nonce=nonce)
     decrypted_text = cipher_decrypt.decrypt(ciphertext)
 
-    return b64encode(ciphertext), decrypted_text, b64encode(key), b64encode(nonce)
+    return {"algo": "ChaCha20", "algo_type": "StreamCipher", "key": key, "nonce": nonce, "decrypted_text": decrypted_text, "ciphertext": ciphertext}
 
-print(encrypt_ChaCha20(b"This is Sixteen. AndAllIsWell."))
+# Example usage
+if __name__ == "__main__":
+    print(encrypt_ChaCha20(b"This is Sixteen. AndAllIsWell."))

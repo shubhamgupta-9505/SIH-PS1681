@@ -24,13 +24,16 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
     mode: an integer ranging from 1 to 5
 
     Returns:
-    dictionary: contains key-value pairs for all necessities
+    Dictionary containining key-value pairs for all necessities
     '''
 
     key_size = 16
     block_size = AES.block_size
 
     ret_dict = {}
+    ret_dict["algo": "AES-128"]
+    ret_dict["algo_type": "BlockCipher"]
+    ret_dict["mode": mode]
 
     plaintext = pad(plaintext, block_size)
 
@@ -83,6 +86,8 @@ def encrypt_AES (plaintext: bytes, mode: int) -> dict:
         cipher_decrypt = AES.new(key, AES.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     
+    ret_dict["ciphertext"] = ciphertext
+
     decrypted_text = unpad(decrypted_text, block_size)
     ret_dict["decrypted_text"] = decrypted_text
         

@@ -16,21 +16,24 @@ from Crypto.Util.Padding import pad, unpad
 def encrypt_DES3 (plaintext: bytes, mode: int) -> dict:
     '''
     Description:
-    This DES3 implementation has 64 bit block size and uses 24 byte key.
+        This DES3 implementation has 64 bit block size and uses 24 byte key.
 
     Parameters:
 
-    plaintext: a bytes representation of string (padded automatically)
-    mode: an integer ranging from 1 to 5
+        plaintext: a bytes representation of string (padded automatically)
+        mode: an integer ranging from 1 to 5
 
     Returns:
-    dictionary: contains key-value pairs for all necessities
+        Dictionary containing key-value pairs for all necessities
     '''
 
     key_size = 24
     block_size = DES3.block_size
 
     ret_dict = {}
+    ret_dict["algo": "Triple-DES"]
+    ret_dict["algo_type": "BlockCipher"]
+    ret_dict["mode": mode]
 
     plaintext = pad(plaintext, block_size)
 
@@ -90,6 +93,8 @@ def encrypt_DES3 (plaintext: bytes, mode: int) -> dict:
         cipher_decrypt = DES3.new(key, DES3.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     
+    ret_dict["ciphertext"] = ciphertext
+
     decrypted_text = unpad(decrypted_text, block_size)
     ret_dict["decrypted_text"] = decrypted_text
         

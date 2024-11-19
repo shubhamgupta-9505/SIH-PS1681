@@ -1,11 +1,11 @@
 ''' 
-Created on 15 November 2024 by Japnoor Kaur
+Created on 19 November 2024 by Nikhat Singla
 
-RSA is used for both confidentiality (encryption) and authentication (digitalsignature).
-Signing and decryption are significantly slower than verification and encryption.
-
-Sufficient length of the RSA modulus is 3072 bits
+This module implements RSA function
 '''
+
+from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
 
 import random
 from math import gcd

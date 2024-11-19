@@ -16,15 +16,7 @@ print(CAST.block_size)
 
 #LEFT
 '''
-JH_2
 JH
-Keccak
-
-
-ARC4
-ChaCha20
-Salsa20
-
 
 RSA
 '''
