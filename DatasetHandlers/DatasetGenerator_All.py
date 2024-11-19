@@ -56,3 +56,5 @@ for part in parts:
     # Append to dataset
     encrypted_parts.append(all_enc)
 
+with open('/home/nikhatsingla/Documents/SIH-PS1681/outputsample.txt') as file:
+    pickle(encrypted_parts, file)
