@@ -1,11 +1,7 @@
 '''
-Created by Nikhat Singla on 15 November 2024
+Created by Nikhat Singla on 19 November 2024
 '''
 
-import os
-import multiprocessing as mp
-from functools import partial
-import json
 import pickle
 
 # Import your encryption functions from their respective modules
@@ -25,35 +21,41 @@ from CryptographicAlgorithms.HashFunctions.Keccak import hash_KECCAK
 with open('/home/nikhatsingla/Documents/SIH-PS1681/testsample.txt', 'r') as file:
     data = file.read()
 
+# Convert data into bytes format
 data = data.encode()
-# print(data)
 
-# Divide the data into 1000 parts
-part_size = len(data) // 1000
+# Divide the data into 25000 parts
+part_size = len(data) // 25000
 parts = [data[i:i+part_size] for i in range(0, len(data), part_size)]
 
-# print(parts)
-
-# Encrypt each part with 15 different cryptographic algorithms
+# Encrypt each part with all cryptographic algorithms
 encrypted_parts = []
 
 for part in parts:
     all_enc = []
 
+    # Encrypt using Block Cipers (5 modes)
     for i in range(1, 6):
         all_enc.append(encrypt_AES(part, i))
         all_enc.append(encrypt_DES3(part, i))
+        all_enc.append(encrypt_Blowfish(part, i))
+        all_enc.append(encrypt_CAST(part, i))
+    
+    # Encrypt using Hash Functions
+    all_enc.append(hash_BLAKE(part))
+    all_enc.append(hash_KECCAK(part))
 
+    # Encrypt using Stream Ciphers
+    all_enc.append(encrypt_ARC4(part))
+    all_enc.append(encrypt_ChaCha20(part))
+    all_enc.append(encrypt_Salsa20(part))
+
+    # Encrypt using Public Key Ciphers
+
+
+    # Append to dataset
     encrypted_parts.append(all_enc)
 
-
-# print(encrypted_parts)
 # Store the encrypted parts in one file
-with open('/home/nikhatsingla/Documents/SIH-PS1681/sampleoutput.txt', 'wb') as file:
-    # json.dump(str(dataset), file, indent=4)
+with open('dataset.bin', 'wb') as file:
     pickle.dump(encrypted_parts, file)
-
-with open('/home/nikhatsingla/Documents/SIH-PS1681/sampleoutput.txt', 'rb') as file:
-    myfile = pickle.load(file)
-
-print(myfile)
