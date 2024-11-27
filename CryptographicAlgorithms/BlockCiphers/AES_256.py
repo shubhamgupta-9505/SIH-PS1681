@@ -1,5 +1,5 @@
 '''
-Created on 09 Nov 2024 by Nikhat Singla
+Created on 27 Nov 2024 by Nikhat Singla
 
 Following mode format is followed throughout:
 Mode 1: ECB
@@ -13,10 +13,10 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 
-def encrypt_AES_128 (plaintext: bytes, mode: int) -> dict:
+def encrypt_AES_256 (plaintext: bytes, mode: int) -> dict:
     '''
     Description:
-    This AES implementation has 128 bit block size and uses 16 byte key.
+    This AES implementation has 128 bit block size and uses 32 byte key.
 
     Parameters:
 
@@ -27,11 +27,11 @@ def encrypt_AES_128 (plaintext: bytes, mode: int) -> dict:
     Dictionary containining key-value pairs for all necessities
     '''
 
-    key_size = 16
+    key_size = 32
     block_size = AES.block_size
 
     ret_dict = {}
-    ret_dict["algo"] = "AES-128"
+    ret_dict["algo"] = "AES-256"
     ret_dict["algo_type"] = "BlockCipher"
     ret_dict["mode"] = mode
 
@@ -94,8 +94,8 @@ def encrypt_AES_128 (plaintext: bytes, mode: int) -> dict:
     return ret_dict
 
 if __name__ == "__main__":
-    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 1))
-    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 2))
-    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 3))
-    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 4))
-    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 5))
+    print(encrypt_AES_256(b"This is Sixteen. Not Sixteen.", 1))
+    print(encrypt_AES_256(b"This is Sixteen. Not Sixteen.", 2))
+    print(encrypt_AES_256(b"This is Sixteen. Not Sixteen.", 3))
+    print(encrypt_AES_256(b"This is Sixteen. Not Sixteen.", 4))
+    print(encrypt_AES_256(b"This is Sixteen. Not Sixteen.", 5))

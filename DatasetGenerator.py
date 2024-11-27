@@ -4,7 +4,9 @@ Created by Nikhat Singla on 19 November 2024
 
 # Import your encryption functions from their respective modules
 from CryptographicAlgorithms.BlockCiphers.TripleDES import encrypt_DES3
-from CryptographicAlgorithms.BlockCiphers.AES_128 import encrypt_AES
+from CryptographicAlgorithms.BlockCiphers.AES_128 import encrypt_AES_128
+from CryptographicAlgorithms.BlockCiphers.AES_192 import encrypt_AES_192
+from CryptographicAlgorithms.BlockCiphers.AES_256 import encrypt_AES_256
 from CryptographicAlgorithms.BlockCiphers.Blowfish import encrypt_Blowfish
 from CryptographicAlgorithms.BlockCiphers.CAST_128 import encrypt_CAST
 
@@ -34,7 +36,9 @@ with open('Datasets/Encrypted/encrypted_nsv.nsv', 'wb') as file:
     for part in parts:
         # Encrypt using Block Cipers (5 modes)
         for i in range(1, 6):
-            file.write(extractFeatures(encrypt_AES(part, i)))
+            file.write(extractFeatures(encrypt_AES_128(part, i)))
+            file.write(extractFeatures(encrypt_AES_192(part, i)))
+            file.write(extractFeatures(encrypt_AES_256(part, i)))
             file.write(extractFeatures(encrypt_DES3(part, i)))
             file.write(extractFeatures(encrypt_Blowfish(part, i)))
             file.write(extractFeatures(encrypt_CAST(part, i)))
