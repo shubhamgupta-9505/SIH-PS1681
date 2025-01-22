@@ -40,11 +40,17 @@ pip install pandas
 pip install flask
 pip install joblib
 pip install h5py
+pip install numpy
 ```
 
 ---
 
 ## Running the Application
+
+With your virtual environment activated, type the following command in the same terminal to run the application
+```bash
+python app.py
+```
 
 This website is configured to run locally on **port 5000**.
 
