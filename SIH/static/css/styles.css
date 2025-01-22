@@ -1,0 +1,295 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Ensure it covers the full viewport height */
+  background: linear-gradient(135deg, #1d0139, #533e66, #3e3e3e);
+  background-size: 200% 200%; /* Enables the animation effect */
+  animation: gradientShift 10s ease infinite; /* Gradient animation */
+}
+
+/* Keyframes for the animated gradient */
+@keyframes gradientShift {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+/* Navbar styles */
+.Navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+
+
+.navbar {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.nav-link {
+  color: white !important;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #0dbaba !important;
+}
+
+/* Main content container */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 100px 20px;
+  padding: 20px;
+}
+
+/* Text content styling */
+.content-left {
+  flex: 1;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+}
+
+/* Adjust image container to properly align the image */
+.image-container {
+flex: 1; /* Take up equal space */
+display: flex;
+justify-content: center; /* Center horizontally */
+align-items: center; /* Center vertically */
+max-width: 50%; /* Limit the maximum size */
+margin: auto; /* Center the container */
+}
+
+/* Adjust image styling */
+#cryptographyImage img {
+width: 100%; /* Ensure it scales within the container */
+height: auto; /* Maintain aspect ratio */
+max-width: 800px; /* Limit the image size */
+animation: revolveSpherical 5s ease-in-out infinite;
+transition: transform 0.5s ease, filter 0.3s ease;
+filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); /* Add shadow for depth */
+}
+
+/* Reduce size on smaller screens */
+@media (max-width: 768px) {
+.image-container {
+    max-width: 80%;
+}
+
+#cryptographyImage img {
+    max-width: 500px; /* Scale down the image size */
+}
+}
+
+/* Hover effect to pause and add zoom */
+#cryptographyImage img:hover {
+transform: scale(1.05); /* Slight zoom */
+filter: brightness(1.1); /* Brighten the image */
+}
+
+/* 3D subtle back-and-forth rotation animation */
+@keyframes revolveSpherical {
+  0% {
+      transform: rotateY(0deg) rotateX(0deg); /* Starting point */
+  }
+  25% {
+      transform: rotateY(30deg) rotateX(5deg); /* Rotate to the right */
+  }
+  50% {
+      transform: rotateY(0deg) rotateX(0deg); /* Return to the center */
+  }
+  75% {
+      transform: rotateY(-30deg) rotateX(5deg); /* Rotate to the left */
+  }
+  100% {
+      transform: rotateY(0deg) rotateX(0deg); /* Back to center */
+  }
+}
+/* Applying a perspective to the parent element to give the image a 3D effect */
+.container {
+  perspective: 1500px;
+}
+
+
+/* Responsiveness */
+@media (max-width: 768px) {
+.image-container {
+    max-width: 80%;
+}
+
+#cryptographyImage img {
+    max-width: 300px;
+}
+}
+
+
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .content-left {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+
+  #cryptographyImage {
+    width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    font-size: 14px;
+  }
+
+
+  .content-left {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-link {
+    font-size: 12px;
+  }
+
+}
+
+/* Footer Styling */
+.footer {
+  background: rgba(0, 0, 0, 0.27); /* Transparent black background */
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a clean effect */
+}
+
+/* Footer Container */
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Footer Text */
+.footer-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow for better readability */
+}
+
+/* Social Icons Container */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Increased space between icons */
+  margin-top: 20px;
+}
+
+/* Individual Social Icon */
+.social-icon {
+  font-size: 3rem; /* Increased icon size */
+  color: white;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #1abc9c; /* Highlight color on hover */
+  transform: scale(1.2); /* Slightly grow icon on hover for better effect */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container p {
+      font-size: 1rem; /* Adjust font size on smaller screens */
+  }
+
+  .social-icons {
+      gap: 15px;
+  }
+
+  .social-icon {
+      font-size: 2.5rem; /* Slightly smaller icons on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container p {
+      font-size: 0.9rem; /* Further adjust font size for small mobile screens */
+  }
+
+  .social-icons {
+      flex-direction: column; /* Stack icons vertically on very small screens */
+      gap: 10px; /* Reduce gap */
+  }
+
+  .social-icon {
+      font-size: 2rem; /* Even smaller icons on mobile */
+  }
+}
+
+/* Styling for the Get Started button */
+.btn-get-started {
+display: inline-block;
+padding: 15px 30px;
+font-size: 18px;
+font-weight: bold;
+color: white;
+background: linear-gradient(90deg, #00c6ff, #0072ff);
+border: none;
+border-radius: 25px;
+text-decoration: none;
+transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+text-align: center;
+margin-top: 20px;
+}
+
+.btn-get-started:hover {
+transform: translateY(-3px); /* Slight lift on hover */
+background: linear-gradient(90deg, #0072ff, #00c6ff);
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+.btn-get-started {
+    font-size: 16px;
+    padding: 12px 25px;
+}
+}
+
+
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptographic Algorithm Identifier</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> -->
+   <link rel="stylesheet" href="../static/css/styles.css">
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+    <div class="Navbar">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" href="./">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./upload">Upload Dataset</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./dashboard">Dashboard</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      
+      <div class="main-content">
+        <!-- Content Section -->
+        <div class="content-left">
+          <h1>Cryptographic Algorithm Identifier</h1>
+          <p>
+            Use our tool to analyze datasets and detect cryptographic algorithms,
+            making security stronger and more robust.
+          </p>
+          <a href="./upload" class="btn-get-started">Get Started</a>
+        </div>
+      
+        <!-- Image Section -->
+        <div class="image-container" id="cryptographyImage">
+            <img src="{{ url_for('static', filename='images/d1.png') }}" alt="Logo">
+
+        </div>
+      </div>
+    
+    <!--Footer-->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2024 Cryptographic Algorithm Identifier</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+
+  <!-- Include Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+  integrity="sha384-oBqDVmMz4fnFO9gybO29A7z9ANNTb9Q9ENNSLO6cNFFAKKlCEM3A9czBhxUMH82"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+  integrity="sha384-cn7l7gDp0ey7e3kz5b5Hk9FjE1PsdzKkS4RRSkv9WWz6jn7jLT4S2e3s5XK8ya5"
+  crossorigin="anonymous"
+></script>
+
+</body>
+</html>
+
+	
