@@ -1,25 +1,23 @@
-'''
-Created on 15th November by Japnoor Kaur and Mahee Agarwal.
+''' 
+Created on 15th November 2024 by Japnoor Kaur, Mahee Agarwal and Nikhat Singla.
 
-This module implements the Keccak hash function and outputs results in a JSON file.
-'''
+This module implements the Keccak hash function.
+''' 
 
-import json
-from Crypto.Hash import SHA3_256
+from Crypto.Hash import keccak
 
-def keccak_hash_to_json_file(digest_bits=256, update_after_digest=False, output_filename="keccak_hash_output.json"):
+def hash_KECCAK(message: bytes, digest_bits=256) -> dict:
     """
-    Continuously takes input from the user, updates the Keccak hash object,
-    computes the final digest when input stops, and saves the result in a JSON file.
+    Hashes the message using Keccak hash function.
 
     Parameters:
-        digest_bits (int): The size of the digest in bits (224, 256, 384, 512).
-        update_after_digest (bool): Whether digest() can be followed by update().
-        output_filename (str): The name of the output JSON file.
+        message (bytes): The message to hash
+        digest_bits (int): The size of the digest in bits (224, 256 (default), 384, 512).
 
     Returns:
-        str: Path to the JSON file containing the hash output.
+        Dictionary containing digest of the input message.
     """
+    
     # Define valid digest sizes and their corresponding byte sizes
     valid_digests = {224: 28, 256: 32, 384: 48, 512: 64}
     
@@ -27,42 +25,17 @@ def keccak_hash_to_json_file(digest_bits=256, update_after_digest=False, output_
     digest_size = valid_digests.get(digest_bits, valid_digests[256])
 
     # Create the Keccak hash object with the given parameters
-    keccak_obj = SHA3_256.new(digest_bytes=digest_size)
+    keccak_obj = keccak.new(digest_bytes=digest_size)
     
-    print("Enter data to hash (press Enter on an empty line to stop):")
+    keccak_obj.update(message)
 
-    while True:
-        # Take input from the user
-        user_input = input(">> ")
-        
-        # Stop if input is empty
-        if not user_input:
-            break
-        
-        # Update the hash object with the new input
-        keccak_obj.update(user_input.encode('utf-8'))
+    # Return the digest of the accumulated input
+    return {"algo": "Keccak", "algo_type": "HashFun", "digest": keccak_obj.digest()}
 
-    # If update_after_digest is True, allow further updates after digest
-    if update_after_digest:
-        print("Digest created. You can still update the hash object.")
-        while True:
-            user_input = input(">> ")
-            if not user_input:
-                break
-            keccak_obj.update(user_input.encode('utf-8'))
+# Example usage
+if __name__ == "__main__":
+    message = b"Hello, world!"
+    digest = hash_KECCAK(message)
+    print(f"Message: {message}")
+    print(f"Keccak Hash: {digest}")
 
-    # Compute the hexadecimal digest of the accumulated input
-    keccak_digest = keccak_obj.hexdigest()
-
-    # Create a dictionary for the JSON output
-    hash_data = {
-        "algorithm": f"Keccak-{digest_bits}",
-        "hexdigest": keccak_digest
-    }
-
-    # Write the dictionary to a JSON file
-    with open(output_filenamekeccak, "w") as json_file:
-        json.dump(hash_data, json_file, indent=4)
-
-    # Return the path to the JSON file
-    return output_filenamekeccak

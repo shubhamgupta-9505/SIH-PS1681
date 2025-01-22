@@ -1,14 +1,24 @@
 '''
 Created by Nikhat Singla on 11 Nov 2024
+
+This module implements ARC4 stream cipher
 '''
 
-def encrypt_ARC4 (plaintext: bytes):
+from Crypto.Cipher import ARC4
+from Crypto.Random import get_random_bytes
+
+def encrypt_ARC4 (plaintext: bytes) -> dict:
     '''
-    Parameter "plaintext" is of type bytes.  Using recommended key length of 16 bytes.
+    Description:
+        This implementation uses 16 bytes key (recommended), although can vary between 1-256 bytes.
+
+    Parameters:
+        plaintext: a bytes representation of string
+
+    Returns:
+        Dictionary containing key-value pairs for all necessities
     '''
-    from Crypto.Cipher import ARC4
-    from Crypto.Random import get_random_bytes
-    from base64 import b64encode
+    
 
     key = get_random_bytes(16)
 
@@ -19,6 +29,8 @@ def encrypt_ARC4 (plaintext: bytes):
     cipher_decrypt = ARC4.new(key)
     decrypted_text = cipher_decrypt.decrypt(ciphertext)
 
-    return b64encode(ciphertext), decrypted_text, b64encode(key)
+    return {"algo": "ARC4", "algo_type": "StreamCipher", "key": key.hex(), "decrypted_text": decrypted_text.hex(), "ciphertext": ciphertext}
 
-print(encrypt_ARC4(b"This is Sixteen. AndAllIsWell."))
+# Example usage
+if __name__ == "__main__":
+    print(encrypt_ARC4(b"This is Sixteen. AndAllIsWell."))

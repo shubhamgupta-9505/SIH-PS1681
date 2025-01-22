@@ -1,89 +1,109 @@
-import json
+'''
+Created on 09 Nov 2024 by Nikhat Singla
+
+Following mode format is followed throughout:
+Mode 1: ECB
+Mode 2: CBC
+Mode 3: CFB (doesn't need padded plaintext)
+Mode 4: OFB (doesn't need padded plaintext)
+Mode 5: CTR (doesn't need padded plaintext)
+'''
+
 from Crypto.Cipher import DES3
 from Crypto.Random import get_random_bytes
-from Crypto.Util import Counter
-from base64 import b64encode
+from Crypto.Util.Padding import pad, unpad
 
-def encrypt_DES3(plaintext: bytes, mode: int, output_filename: str):
+def encrypt_DES3 (plaintext: bytes, mode: int) -> dict:
     '''
-    Encrypts the given plaintext using DES3 cipher in the specified mode.
-    
-    Args:
-        plaintext (bytes): The plaintext data to be encrypted.
-        mode (int): The mode of operation (1: ECB, 2: CBC, 3: CFB, 4: OFB, 5: CTR).
-        output_filename (str): The filename for saving the JSON output.
-    
+    Description:
+        This DES3 implementation has 64 bit block size and uses 24 byte key.
+
+    Parameters:
+
+        plaintext: a bytes representation of string (padded automatically)
+        mode: an integer ranging from 1 to 5
+
     Returns:
-        None: The result is written to a JSON file.
+        Dictionary containing key-value pairs for all necessities
     '''
-    key_size = 8 * 3  # DES3 key size (3 DES keys)
-    block_size = 8    # DES block size
 
-    # for CFB
-    segment_size = 8  # specifies segment size (in multiples of 8 bits)
+    key_size = 24
+    block_size = DES3.block_size
 
-    # for CTR
-    nonce = None  # specifies nonce (set to None due to other modes of operations)
-    nonce_size = int(block_size / 2)  # specifies size of nonce (in bytes)
-    counter_initial_value = 0  # specifies initial value of counter
+    ret_dict = {}
+    ret_dict["algo"] = "Triple-DES"
+    ret_dict["algo_type"] = "BlockCipher"
+    ret_dict["mode"] = mode
+
+    plaintext = pad(plaintext, block_size)
 
     key = get_random_bytes(key_size)
-    iv = get_random_bytes(block_size)
+    while True:
+        try:
+            key = DES3.adjust_key_parity(key)
+            break
 
-    if mode == 1:  # ECB
-        iv = None
+        except ValueError:
+            pass
+    ret_dict["key"] = key.hex()
+
+    if (mode == 1):
         cipher_encrypt = DES3.new(key, DES3.MODE_ECB)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = DES3.new(key, DES3.MODE_ECB)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    elif (mode == 2):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
 
-    elif mode == 2:  # CBC
         cipher_encrypt = DES3.new(key, DES3.MODE_CBC, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = DES3.new(key, DES3.MODE_CBC, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    elif (mode == 3):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
 
-    elif mode == 3:  # CFB
+        segment_size = 8 # specifies segment size (in multiples of 8 bits)
+        ret_dict["segment_size"] = segment_size
+
         cipher_encrypt = DES3.new(key, DES3.MODE_CFB, iv, segment_size=segment_size)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = DES3.new(key, DES3.MODE_CFB, iv, segment_size=segment_size)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    elif (mode == 4):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
 
-    elif mode == 4:  # OFB
         cipher_encrypt = DES3.new(key, DES3.MODE_OFB, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = DES3.new(key, DES3.MODE_OFB, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    elif (mode == 5):
+        nonce = get_random_bytes(int(block_size / 2))
+        ret_dict["nonce"] = nonce.hex()
 
-    elif mode == 5:  # CTR
-        iv = None
-        nonce = get_random_bytes(nonce_size)
-        counter_1 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_encrypt = DES3.new(key, DES3.MODE_CTR, counter=counter_1)
+        cipher_encrypt = DES3.new(key, DES3.MODE_CTR, nonce=nonce)
         ciphertext = cipher_encrypt.encrypt(plaintext)
-        counter_2 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_decrypt = DES3.new(key, DES3.MODE_CTR, counter=counter_2)
+
+        cipher_decrypt = DES3.new(key, DES3.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
+    
+    ret_dict["ciphertext"] = ciphertext
 
-    # Prepare the result data
-    result_data = {
-        "algorithm": "DES3",
-        "key": b64encode(key).decode(),
-        "iv": b64encode(iv).decode() if iv else None,
-        "nonce": b64encode(nonce).decode() if nonce else None,
-        "ciphertext": b64encode(ciphertext).decode(),
-        "decrypted_text": decrypted_text.decode()
-    }
+    decrypted_text = unpad(decrypted_text, block_size)
+    ret_dict["decrypted_text"] = decrypted_text.decode()
+        
+    return ret_dict
 
-    # Write the result data to a JSON file
-    with open(output_filenametripleDES, "w") as json_file:
-        json.dump(result_data, json_file, indent=4)
+if __name__ == "__main__":
+    print(encrypt_DES3(b"This is Sixteen. Not Sixteen.", 1))
+    print(encrypt_DES3(b"This is Sixteen. Not Sixteen.", 2))
+    print(encrypt_DES3(b"This is Sixteen. Not Sixteen.", 3))
+    print(encrypt_DES3(b"This is Sixteen. Not Sixteen.", 4))
+    print(encrypt_DES3(b"This is Sixteen. Not Sixteen.", 5))
 
-    return output_filenametripleDES
-
-# Example usage:
-encrypt_DES3(b"This is Sixteen.", 1, "des3_output_mode_1.json")
-encrypt_DES3(b"This is Sixteen.", 2, "des3_output_mode_2.json")
-encrypt_DES3(b"This is Sixteen.", 3, "des3_output_mode_3.json")
-encrypt_DES3(b"This is Sixteen.", 4, "des3_output_mode_4.json")
-encrypt_DES3(b"This is Sixteen.", 5, "des3_output_mode_5.json")

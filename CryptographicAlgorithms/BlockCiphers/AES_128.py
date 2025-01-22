@@ -1,89 +1,101 @@
-import random
+'''
+Created on 09 Nov 2024 by Nikhat Singla
+
+Following mode format is followed throughout:
+Mode 1: ECB
+Mode 2: CBC
+Mode 3: CFB (doesn't need padded plaintext)
+Mode 4: OFB (doesn't need padded plaintext)
+Mode 5: CTR (doesn't need padded plaintext)
+'''
+
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-from Crypto.Util import Counter
-from base64 import b64encode
-import json
+from Crypto.Util.Padding import pad, unpad
 
-def encrypt_AES(plaintext: bytes, mode: int, output_filename="aes_output.json"):
+def encrypt_AES_128 (plaintext: bytes, mode: int) -> dict:
     '''
-    Encrypts the plaintext with AES cipher in different modes.
-    
-    Args:
-        plaintext (bytes): The data to be encrypted (should be a multiple of 16 bytes).
-        mode (int): The mode of operation (1 = ECB, 2 = CBC, 3 = CFB, 4 = OFB, 5 = CTR).
-        output_filename (str): The name of the output JSON file.
-    
+    Description:
+    This AES implementation has 128 bit block size and uses 16 byte key.
+
+    Parameters:
+
+    plaintext: a bytes representation of string (padded automatically)
+    mode: an integer ranging from 1 to 5
+
     Returns:
-        dict: A dictionary with encryption details.
+    Dictionary containining key-value pairs for all necessities
     '''
-    key_size = 16
-    block_size = 16
 
-    # for CFB, OFB, CTR
-    segment_size = 8  # specifies segment size (in multiples of 8 bits)
-    nonce_size = int(block_size / 2)  # size of nonce (in bytes)
-    counter_initial_value = 0  # initial value of counter
+    key_size = 16
+    block_size = AES.block_size
+
+    ret_dict = {}
+    ret_dict["algo"] = "AES-128"
+    ret_dict["algo_type"] = "BlockCipher"
+    ret_dict["mode"] = mode
+
+    plaintext = pad(plaintext, block_size)
 
     key = get_random_bytes(key_size)
-    iv = get_random_bytes(block_size)
-    nonce = None
-    ciphertext = None
-    decrypted_text = None
+    ret_dict["key"] = key.hex()
 
-    if mode == 1:  # ECB
-        iv = None
+    if (mode == 1):
         cipher_encrypt = AES.new(key, AES.MODE_ECB)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = AES.new(key, AES.MODE_ECB)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
-        
-    elif mode == 2:  # CBC
+    elif (mode == 2):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
+
         cipher_encrypt = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = AES.new(key, AES.MODE_CBC, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
-        
-    elif mode == 3:  # CFB
+    elif (mode == 3):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
+
+        segment_size = 8 # specifies segment size (in multiples of 8 bits)
+        ret_dict["segment_size"] = segment_size
+
         cipher_encrypt = AES.new(key, AES.MODE_CFB, iv, segment_size=segment_size)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = AES.new(key, AES.MODE_CFB, iv, segment_size=segment_size)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
-        
-    elif mode == 4:  # OFB
+    elif (mode == 4):
+        iv = get_random_bytes(block_size)
+        ret_dict["iv"] = iv.hex()
+
         cipher_encrypt = AES.new(key, AES.MODE_OFB, iv)
         ciphertext = cipher_encrypt.encrypt(plaintext)
+
         cipher_decrypt = AES.new(key, AES.MODE_OFB, iv)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
-        
-    elif mode == 5:  # CTR
-        nonce = get_random_bytes(nonce_size)
-        counter = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_encrypt = AES.new(key, AES.MODE_CTR, counter=counter)
+    elif (mode == 5):
+        nonce = get_random_bytes(int(block_size / 2))
+        ret_dict["nonce"] = nonce.hex()
+
+        cipher_encrypt = AES.new(key, AES.MODE_CTR, nonce=nonce)
         ciphertext = cipher_encrypt.encrypt(plaintext)
-        counter_2 = Counter.new(8 * (block_size - nonce_size), prefix=nonce, initial_value=counter_initial_value)
-        cipher_decrypt = AES.new(key, AES.MODE_CTR, counter=counter_2)
+
+        cipher_decrypt = AES.new(key, AES.MODE_CTR, nonce=nonce)
         decrypted_text = cipher_decrypt.decrypt(ciphertext)
     
-    # Prepare the result data in the desired JSON format
-    result_data = {
-        "algorithm": "AES",
-        "key": b64encode(key).decode(),
-        "iv": b64encode(iv).decode() if iv else None,
-        "nonce": b64encode(nonce).decode() if nonce else None,
-        "ciphertext": b64encode(ciphertext).decode(),
-        "decrypted_text": decrypted_text.decode()
-    }
-    
-    # Write the result data to a JSON file
-    with open(output_filenameAes, "w") as json_file:
-        json.dump(result_data, json_file, indent=4)
-    
-    return output_filenameAes
+    ret_dict["ciphertext"] = ciphertext
 
-# Example usage:
-print(encrypt_AES(b"This is Sixteen.", 1))  # ECB Mode
-print(encrypt_AES(b"This is Sixteen.", 2))  # CBC Mode
-print(encrypt_AES(b"This is Sixteen.", 3))  # CFB Mode
-print(encrypt_AES(b"This is Sixteen.", 4))  # OFB Mode
-print(encrypt_AES(b"This is Sixteen.", 5))  # CTR Mode
+    decrypted_text = unpad(decrypted_text, block_size)
+    ret_dict["decrypted_text"] = decrypted_text.decode()
+        
+    return ret_dict
+
+if __name__ == "__main__":
+    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 1))
+    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 2))
+    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 3))
+    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 4))
+    print(encrypt_AES_128(b"This is Sixteen. Not Sixteen.", 5))
