@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Training Details</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}"> -->
+     <link rel="stylesheet" href="../static/css/dashboard.css">
+
+    <!-- Add Plotly library for graphs -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+    <div class="Navbar">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" href="./">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./upload">Upload Dataset</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./dashboard">Dashboard</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <h1>AI Model Training Dashboard</h1>
+            <p>Visualizing the performance of machine learning models</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <!-- Confusion Matrix Section -->
+            <div class="col-md-6 col-lg-4 section" id="confusionMatrixSection">
+                <h4>Confusion Matrix</h4>
+                <img src="{{ url_for('static', filename='images/confusion_matrix_image.png') }}" alt="Logo">
+
+            </div>
+
+            <!-- Model Metrics Table Section -->
+            <div class="col-md-6 col-lg-4 section" id="metricsTableSection">
+                <h3 class="section-title">Model Metrics</h3>
+                <table id="metricsTable">
+                    <!-- Table will be filled by JS -->
+                </table>
+            </div>
+
+            <!-- Precision/Recall Section -->
+            <div class="col-md-6 col-lg-4 section" id="precisionRecallSection">
+                <h3 class="section-title">Precision, Recall & F1 Score</h3>
+                <table id="precisionRecallTable">
+                    <!-- Table will be filled by JS -->
+                </table>
+            </div>
+
+            <!-- Bar Graph Section -->
+            <div class="col-md-6 col-lg-4 section" id="barGraphSection">
+                <h3 class="section-title">Algorithm Performance</h3>
+                <div id="barGraph" class="graph"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>

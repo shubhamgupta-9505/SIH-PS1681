@@ -1,0 +1,270 @@
+/* General Body Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body takes up full height */
+}
+
+/* Navbar Styling */
+.Navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 10px 0; /* Ensures navbar is not too large */
+}
+
+/* Upload Container Styling */
+.upload-container {
+    background: linear-gradient(145deg, #210027, #70607f); /* Updated to match the reference gradient */
+    color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Updated shadow for better effect */
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 100px; /* Ensures space below fixed navbar */
+}
+
+/* Header Styling inside Upload Container */
+h2 {
+    font-size: 2rem;
+    color: #f5f1f1;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Subtle text shadow for better readability */
+}
+
+/* Hover effect for Upload Container */
+.upload-container:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow effect */
+    transform: scale(1.02); /* Slight zoom on hover */
+    transition: all 0.3s ease-in-out; /* Smooth hover transition */
+}
+
+
+/* Box Header */
+.box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Box Styling */
+.box {
+    background: linear-gradient(145deg, #4c2c5d, #935fc0); /* Vibrant blue-purple gradient */
+    color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box:hover {
+    transform: translateY(-10px); /* Lifts the box on hover */
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4), -8px -8px 20px rgba(255, 255, 255, 0.2);
+}
+
+
+/* Input Field Styling */
+input[type="file"] {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+}
+
+input[type="file"]:hover,
+input[type="file"]:focus {
+    border-color: #1abc9c;
+}
+
+/* Ciphertext Input Textbox Styling */
+#ciphertextInput {
+    width: 100%; /* Full width inside the container */
+    padding: 12px 15px; /* Comfortable padding */
+    font-size: 1rem; /* Readable font size */
+    color: #333; /* Dark text color for contrast */
+    background: rgba(255, 255, 255, 0.9); /* Light background for readability */
+    border: 2px solid rgba(255, 255, 255, 0.6); /* Subtle border */
+    border-radius: 8px; /* Rounded edges */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+#ciphertextInput:focus {
+    outline: none; /* Remove default browser outline */
+    border-color: #7107fb; /* Highlight border on focus */
+    box-shadow: 0 0 8px rgba(113, 7, 251, 0.6); /* Glow effect on focus */
+}
+
+#ciphertextInput::placeholder {
+    color: #aaa; /* Light gray placeholder text */
+    font-style: italic; /* Italic for distinction */
+}
+
+/* Hover Effect */
+#ciphertextInput:hover {
+    border-color: #ae4bf4; /* Slightly lighter border on hover */
+}
+
+
+/* Button Styling */
+.upload-button,
+.box-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: #ed7171;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 50%;
+    max-width: 300px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover,
+.box-button:hover {
+    background-color: #ae4bf4;
+}
+
+.upload-button:active,
+.box-button:active {
+    transform: translateY(1px); /* Button press effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow on press */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .upload-container {
+        width: 95%;
+        padding: 20px;
+        margin-top: 90px; /* Adjusted margin for small screens */
+    }
+
+    textarea {
+        height: 80px;
+    }
+
+    .upload-button {
+        width: 80%;
+    }
+
+    input[type="file"] {
+        width: 90%;
+    }
+}
+
+/* Footer Styling */
+.footer {
+    background: rgba(0, 0, 0, 0.27); /* Transparent black background */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a clean effect */
+    margin-top: auto; /* Keeps the footer at the bottom of the page */
+}
+
+/* Footer Container */
+.footer-container {
+    top: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Footer Text */
+.footer-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow for better readability */
+}
+
+/* Social Icons Container */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Increased space between icons */
+    margin-top: 20px;
+}
+
+/* Individual Social Icon */
+.social-icon {
+    font-size: 3rem; /* Increased icon size */
+    color: white;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #1abc9c; /* Highlight color on hover */
+    transform: scale(1.2); /* Slightly grow icon on hover for better effect */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container p {
+        font-size: 1rem; /* Adjust font size on smaller screens */
+    }
+
+    .social-icons {
+        gap: 15px;
+    }
+
+    .social-icon {
+        font-size: 2.5rem; /* Slightly smaller icons on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container p {
+        font-size: 0.9rem; /* Further adjust font size for small mobile screens */
+    }
+
+    .social-icons {
+        flex-direction: column; /* Stack icons vertically on very small screens */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .social-icon {
+        font-size: 2rem; /* Even smaller icons on mobile */
+    }
+}
+
+/* Radio Buttons Styling */
+.radio-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Adds space between the radio buttons */
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.radio-buttons label {
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds a little space between the radio button and label text */
+}
